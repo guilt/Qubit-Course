@@ -15,20 +15,7 @@ cat <<EOF
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"/>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({
-                 messageStyle: "none",
-                 tex2jax: {
-                     preview: "none"
-                 }
-            });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-	<script src="https://unpkg.com/mermaid@8.8.2/dist/mermaid.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/flatly/bulmaswatch.min.css">
     </head>
     <body>
         <section class="section">
@@ -40,12 +27,26 @@ python -m markdown -x mdx_mathjax -x codehilite -x sane_lists -x md_mermaid -x t
 cat <<EOF
             </div>
         </section>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script src="https://unpkg.com/mermaid@8.8.2/dist/mermaid.min.js"></script>
+        <script src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                 messageStyle: "none",
+                 tex2jax: {
+                     preview: "none"
+                 }
+            });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     </body>
 </html>
 EOF
 } > "${HFILE}"
 
 PFILE=$( echo "${HFILE}" | sed 's/.html/.pdf/g' )
+TMPDIR=${TMPDIR:-${TEMP}}
+TMPDIR=${TMPDIR:-${TMP}}
 TMPDIR=${TMPDIR:-.}
 
 which phantomjs || { echo "No PhantomJS."; exit 1; }
@@ -53,14 +54,10 @@ which phantomjs || { echo "No PhantomJS."; exit 1; }
 cat <<EOF
 var sys = require('system');
 var page = require('webpage').create();
-page.settings.dpi = "100";
+page.settings.dpi = "120";
 page.paperSize = {
     format: 'letter',
     orientation: 'portrait',
-    margin: {
-            top: '1cm',
-            bottom: '1cm'
-    }
 };
 page.open(sys.args[1], function() {
     setTimeout(function() {
