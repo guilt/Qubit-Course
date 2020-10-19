@@ -1,0 +1,6 @@
+*.pyc
+Answers.html
+Answers.pdf
+README.html
+README.pdf
+__pycache__
