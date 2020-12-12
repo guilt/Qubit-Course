@@ -22,7 +22,7 @@ cat <<EOF
             <div class="content">
 EOF
 
-python -m markdown -x mdx_mathjax -x codehilite -x sane_lists -x md_mermaid -x tables -- "${FILE}"
+python -m markdown -x fenced_code -x mdx_mathjax -x codehilite -x sane_lists -x md_mermaid -x tables -- "${FILE}"
 
 cat <<EOF
             </div>
